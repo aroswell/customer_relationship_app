@@ -10,4 +10,8 @@ class Contact
     @notes = nts
   end
 
+  def display
+    "method displays contact info"
+  end
+
 end

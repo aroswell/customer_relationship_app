@@ -1,5 +1,7 @@
 #file holds main program and main class
 
+require_relative 'contact'
+require_relative 'rolodex'
 
 #menu method
 puts "[1] Add a new contact"
