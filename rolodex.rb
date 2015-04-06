@@ -1,11 +1,17 @@
 # Rolodex class
 
 class Rolodex
+  # attr_accessor :contact_id
+
   def intialize
     @contacts = []
+    @contact_id = 1000
   end
 
-  def add
+  def add(new_cont)
+    # @contact_id += 1 #first contact ID is not 1000, but 1001
+    # new_cont.id = @contact_id
+    @contacts << new_cont
   end
 
   def modify_contact
