@@ -23,12 +23,17 @@ class CRM
          @crm_rolodex.add_contact(new_contact)
 
       elsif menu_response == 2 #modify contact
-          entered_id = prompt_contact_id
+        entered_id = prompt_contact_id
+        while true
+          attribute_type = prompt_for_attribute
+          attribute_val = collect_attribute_value
+          @crm_rolodex.modify_contact(entered_id,attribute_type,attribute_val)
 
-        # As a user, when an attribute is entered, I am prompted to enter a new value for the attribute.
-        # @crm_rolodex.display_all_contacts
-        #
-        # @crm_rolodex.display_all_contacts
+          print "Do you want to modify another attribute? ('yes' or 'no'):"
+          reply = gets.chomp
+          break if reply == 'no'
+        end
+
 
       elsif menu_response == 3 #display all contacts
         @crm_rolodex.display_all_contacts
@@ -39,8 +44,7 @@ class CRM
 
       elsif menu_response == 5 #display a contact based on attribute
         attribute_type = prompt_for_attribute
-        print "Please enter attribute value:"
-        attribute_val = gets.chomp
+        attribute_val = collect_attribute_value
         @crm_rolodex.display_info_by_attribute(attribute_type, attribute_val)
 
       elsif menu_response == 6 #delete a contact
@@ -111,6 +115,11 @@ class CRM
     puts "[4] Note"
     print "Please enter the attribute you want to search by (1 thru 4):"
     contact_attrb = gets.chomp.to_i
+  end
+
+  def collect_attribute_value
+    print "Please enter attribute value:"
+    value = gets.chomp
   end
 
 end

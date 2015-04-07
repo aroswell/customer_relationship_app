@@ -14,8 +14,13 @@ class Rolodex
     @contacts << new_cont
   end
 
-  def modify_contact(mod_cont)
-
+  def modify_contact(id, type, attribute_val)
+    @contacts.each do |people|
+        people.first_name = attribute_val if people.id == id && type == 1
+        people.last_name = attribute_val if people.id == id && type == 2
+        people.email = attribute_val if people.id == id && type == 3
+        people.notes = attribute_val if people.id == id && type == 4
+    end
   end
 
   def display_all_contacts
