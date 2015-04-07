@@ -17,9 +17,10 @@ class CRM
       menu_response = menu
 
       if menu_response == 1 #adding a new contact
-         contact_info = prompt_contact_info
+         # contact_info = prompt_contact_info
+         contact_info = ["David", "Banner", "banner.d@hulk.com", "Turns green with anger not envy"]
          new_contact = Contact.new(contact_info[0], contact_info[1], contact_info[2], contact_info[3])
-         @crm_rolodex.add(new_contact)
+         @crm_rolodex.add_contact(new_contact)
 
       elsif menu_response == 2
 
@@ -49,7 +50,7 @@ class CRM
     puts "[5] Display Attribute of a contact"
     puts "[6] Delete a contact"
     puts "[7] Exit"
-    print "\nPlease enter your selection (between 1 to 7):"
+    print "Please enter your selection (between 1 to 7):"
 
     user_selection = gets.chomp.to_i
 
