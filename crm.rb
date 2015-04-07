@@ -7,6 +7,11 @@ require_relative 'rolodex'
 #declare a CRM class
 class CRM
 
+  def self.run
+    my_crm = new
+    my_crm.run
+  end
+
   def initialize
     @crm_rolodex = Rolodex.new
   end
@@ -17,8 +22,8 @@ class CRM
       menu_response = menu
 
       if menu_response == 1 #adding a new contact
-         # contact_info = prompt_contact_info
-         contact_info = ["David", "Banner", "banner.d@hulk.com", "Turns green with anger not envy"]
+         # This line was used during testing => contact_info = ["David", "Banner", "banner.d@hulk.com", "Turns green with anger not envy"]
+         contact_info = prompt_contact_info
          new_contact = Contact.new(contact_info[0], contact_info[1], contact_info[2], contact_info[3])
          @crm_rolodex.add_contact(new_contact)
 
@@ -125,8 +130,7 @@ class CRM
 end
 
 
-my_crm = CRM.new
-my_crm.run
+CRM.run
 
 
 
