@@ -32,9 +32,23 @@ class Rolodex
     end
   end
 
-  def display_info_by_attribute(attribute)
-    @contacts.each do |people|
-      puts people.display if people.attribute == attribute
+  def display_info_by_attribute(type, attribute_val)
+    if type == 1
+      @contacts.each do |people|
+        puts people.display if people.first_name == attribute_val
+      end
+    elsif type == 2
+      @contacts.each do |people|
+        puts people.display if people.last_name == attribute_val
+      end
+    elsif type == 3
+      @contacts.each do |people|
+        puts people.display if people.email == attribute_val
+      end
+    elsif type == 4
+      @contacts.each do |people|
+        puts people.display if people.notes == attribute_val
+      end
     end
   end
 
