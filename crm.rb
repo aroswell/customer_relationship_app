@@ -17,24 +17,32 @@ class CRM
       menu_response = menu
 
       if menu_response == 1 #adding a new contact
+
          # contact_info = prompt_contact_info
          contact_info = ["David", "Banner", "banner.d@hulk.com", "Turns green with anger not envy"]
          new_contact = Contact.new(contact_info[0], contact_info[1], contact_info[2], contact_info[3])
          @crm_rolodex.add_contact(new_contact)
 
-      elsif menu_response == 2
+      elsif menu_response == 2 #modify contact
 
-      elsif menu_response == 3
+        # @crm_rolodex.display_all_contacts
+        # @crm_rolodex.delete_contact(1001)
+        # @crm_rolodex.display_all_contacts
 
-      elsif menu_response == 4
+      elsif menu_response == 3 #Display all contacts
+        @crm_rolodex.display_all_contacts
 
-      elsif menu_response == 5
+      elsif menu_response == 4 #display a contact based on id
+        @crm_rolodex.delete_contact(1001)
 
-      elsif menu_response == 6
+      elsif menu_response == 5 #display attribute of a contact
+
+      elsif menu_response == 6 #delete a contact
+
       end
 
 
-      break if menu_response == 7
+      break if menu_response == 7 #exit CRM
     end
   end
 
@@ -83,7 +91,7 @@ class CRM
     user_contact_id_conformation = gets.chomp.downcase
 
     if user_contact_id_conformation == 'yes'
-      #call ADD method
+      #call method to prompt user to select attribute to be modified
     else
       #return to main menu
     end
@@ -125,9 +133,6 @@ end
 
 my_crm = CRM.new
 my_crm.run
-# person_contact = prompt_contact_info if my_crm.menu == 1
 
-# fp = Contact.new(person_contact[0], person_contact[1], person_contact[2], person_contact[3])
-# puts fp.display
 
 
