@@ -1,67 +1,78 @@
 # Rolodex class
+require_relative 'contact'
 
 class Rolodex
-  # attr_accessor :contact_id
 
   def initialize
-    @contacts = []
-    @contact_id = 1000
+
   end
 
-  def add_contact(new_cont)
-    @contact_id += 1 #first contact ID is not 1000, but 1001
-    new_cont.id = @contact_id
-    @contacts << new_cont
-  end
-
-  def modify_contact(id, type, attribute_val)
-    @contacts.each do |people|
-        people.first_name = attribute_val if people.id == id && type == 1
-        people.last_name = attribute_val if people.id == id && type == 2
-        people.email = attribute_val if people.id == id && type == 3
-        people.notes = attribute_val if people.id == id && type == 4
+  def add_contact(contact_info)
+    new_contact = Contact.new(contact_info)
+    if new_contact.save
+      puts "New contact was succesfully saved."
+    else
+      puts "Error: New contact could not be saved."
     end
   end
 
-  def display_all_contacts
-    puts "Rolodex is empty" if @contacts.empty?
+  def modify_contact(id, type, attribute_val)
+    contact = Contact.find(id)
 
-    @contacts.each do |item|
-        puts item.display
+    if contact
+      contact.first_name = attribute_val if type == 1
+      contact.last_name = attribute_val if type == 2
+      contact.email = attribute_val if type == 3
+      contact.notes = attribute_val if type == 4
+    else
+      puts "Contact not found. Please check i.d."
+    end
+
+    contact.save
+
+    # allows user to see changes take effect immediately
+    display_particular_contact(id)
+
+  end
+
+  def display_all_contacts
+    @all_contacts = Contact.all
+    puts "Rolodex is empty" if @all_contacts.empty?
+
+    @all_contacts.each do |person|
+      puts person.display
     end
   end
 
   def display_particular_contact(id)
-    @contacts.each do |people|
-      puts people.display if people.id == id
-    end
+    person = Contact.find(id)
+    puts person.display
   end
 
   def display_info_by_attribute(type, attribute_val)
     if type == 1
-      @contacts.each do |people|
-        puts people.display if people.first_name == attribute_val
-      end
+      person = Contact.find_by(first_name: attribute_val)
+      puts person.display
+
     elsif type == 2
-      @contacts.each do |people|
-        puts people.display if people.last_name == attribute_val
-      end
+      person = Contact.find_by(last_name: attribute_val)
+      puts person.display
+
     elsif type == 3
-      @contacts.each do |people|
-        puts people.display if people.email == attribute_val
-      end
+      person = Contact.find_by(email: attribute_val)
+      puts person.display
+
     elsif type == 4
-      @contacts.each do |people|
-        puts people.display if people.notes == attribute_val
-      end
+      person = Contact.find_by(notes: attribute_val)
+      puts person.display
+
     end
   end
 
   # delete contact based on contact id
   def delete_contact(id)
-    @contacts.each do |people|
-      @contacts.delete(people) if people.id == id
-    end
+    contact = Contact.find(id)
+    contact.destroy
   end
 
 end

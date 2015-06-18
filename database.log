@@ -1,0 +1,2 @@
+D, [2015-06-18T02:47:23.015313 #11310] DEBUG -- :   [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "contacts"[0m
+D, [2015-06-18T02:47:23.015822 #11310] DEBUG -- :   [1m[35mContact Load (0.2ms)[0m  SELECT "contacts".* FROM "contacts"
