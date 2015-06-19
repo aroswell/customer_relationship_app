@@ -1,5 +1,5 @@
 adapter: sqlite3
-database: tes_database
+database: test_database
 username: user
 password: password
 host: localhost
