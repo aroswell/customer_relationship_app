@@ -1,2 +1,2 @@
-D, [2015-06-18T02:47:23.015313 #11310] DEBUG -- :   [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "contacts"[0m
-D, [2015-06-18T02:47:23.015822 #11310] DEBUG -- :   [1m[35mContact Load (0.2ms)[0m  SELECT "contacts".* FROM "contacts"
+D, [2015-06-18T20:12:16.603615 #12669] DEBUG -- :   [1m[36m (2.9ms)[0m  [1mDROP TABLE "contacts"[0m
+D, [2015-06-18T20:12:16.606117 #12669] DEBUG -- :   [1m[35m (2.1ms)[0m  CREATE TABLE "contacts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "first_name" varchar, "last_name" varchar, "email" varchar, "notes" text, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 

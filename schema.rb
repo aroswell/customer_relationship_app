@@ -14,4 +14,4 @@ ActiveRecord::Schema.define do
 
 end
 
-
+puts "ActiveRecord schema completed."

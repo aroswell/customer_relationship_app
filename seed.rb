@@ -12,3 +12,5 @@ Contact.delete_all
     notes: Faker::Lorem.paragraph
     )
 end
+
+puts "Seeding complete!"
