@@ -12,3 +12,11 @@ namespace :db do
     ruby 'seed.rb'
   end
 end
+
+# Setting up testing task
+task(default: :test)
+
+desc "Run test suite"
+task :test do
+  puts "Running test suite..."
+end
