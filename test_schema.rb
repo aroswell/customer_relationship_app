@@ -1,4 +1,4 @@
-require_relative "connection"
+require_relative "test_connection"
 
 # define a database schema
 ActiveRecord::Schema.define do
@@ -14,5 +14,5 @@ ActiveRecord::Schema.define do
 
 end
 
-puts "ActiveRecord schema completed."
+puts "ActiveRecord test schema completed."
 puts

@@ -7,3 +7,5 @@
 # Ignore database file and log
 /database
 /database.log
+/test_database
+/test_database.log
