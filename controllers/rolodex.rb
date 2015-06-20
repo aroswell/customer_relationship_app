@@ -3,9 +3,8 @@ require_relative '../models/contact'
 
 class Rolodex
 
-  def initialize
-
-  end
+  # def initialize
+  # end
 
   def add_contact(contact_info)
     new_contact = Contact.new(contact_info)
