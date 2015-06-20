@@ -1,5 +1,5 @@
 # Rolodex class
-require_relative 'contact'
+require_relative '../models/contact'
 
 class Rolodex
 

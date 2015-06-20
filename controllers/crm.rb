@@ -3,8 +3,8 @@
 # require "rubygems"
 
 require "pry"
-require_relative "../connection"
-require_relative '../models/rolodex'
+require_relative "../db/connection"
+require_relative 'rolodex'
 
 #define a CRM class
 class CRM

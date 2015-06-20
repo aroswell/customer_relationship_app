@@ -5,7 +5,7 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore database file and log
-/database
-/database.log
-/test_database
-/test_database.log
+/db/database
+/db/database.log
+/test_db/test_database
+/test_db/test_database.log
