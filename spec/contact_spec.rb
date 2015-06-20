@@ -1,11 +1,11 @@
-require_relative "spec_helper"
+require "spec_helper"
 
 describe Contact do
 
   describe '#new' do
-    @contact = Contact.new
     it "returns a Contact object" do
-      expect(@contact).to be Contact
+      contact = Contact.new
+      expect(contact).to be_an_instance_of Contact
     end
   end
 
