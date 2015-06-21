@@ -27,10 +27,12 @@ class Rolodex
       puts "Contact not found. Please check i.d."
     end
 
-    contact.save
-
-    # allows user to see changes take effect immediately
-    display_particular_contact(id)
+    if contact.save
+      # allows user to see changes take effect immediately
+      display_particular_contact(id)
+    else
+      puts "Error: could not save to database"
+    end
 
   end
 
@@ -44,42 +46,52 @@ class Rolodex
   end
 
   def display_particular_contact(id)
-    person = Contact.find(id)
-    puts person.display
+    if person = Contact.find(id)
+      puts person.display
+    else
+      puts "Contact not found."
+    end
   end
 
   def display_info_by_attribute(type, attribute_val)
     if type == 1
-      person = Contact.find_by(first_name: attribute_val)
-      puts person.display
+      if person = Contact.find_by(first_name: attribute_val)
+        puts person.display
+      else
+        puts "Contact with first name #{attribute_val} not found."
+      end
 
     elsif type == 2
-      person = Contact.find_by(last_name: attribute_val)
-      puts person.display
+      if person = Contact.find_by(last_name: attribute_val)
+        puts person.display
+      else
+        puts "Contact with last name #{attribute_val} not found."
+      end
 
     elsif type == 3
-      person = Contact.find_by(email: attribute_val)
-      puts person.display
+      if person = Contact.find_by(email: attribute_val)
+        puts person.display
+      else
+        puts "Contact with email #{attribute_val} not found."
+      end
 
     elsif type == 4
-      person = Contact.find_by(notes: attribute_val)
-      puts person.display
+      if person = Contact.find_by(notes: attribute_val)
+        puts person.display
+      else
+        puts "Contact with notes: #{attribute_val} not found."
+      end
 
     end
   end
 
   # delete contact based on contact id
   def delete_contact(id)
-    contact = Contact.find(id)
-    contact.destroy
+    if contact = Contact.find(id)
+      contact.destroy
+    else
+      puts "Contact with that id not found."
+    end
   end
 
 end
-
-
-#Below is a test area to be remove when program is complete:
-
-# test_rolodex = Rolodex.new
-# test_rolodex.add_contact(0)
-
-
