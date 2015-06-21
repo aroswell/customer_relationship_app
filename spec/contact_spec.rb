@@ -12,7 +12,7 @@ describe Contact do
   end
 
   describe '#display' do
-    it "displays the contact's details" do
+    it "returns the contact's details as a string" do
       person = Contact.create(
         first_name: 'Tim',
         last_name: 'Roberts',

@@ -59,7 +59,7 @@ describe Rolodex do
     end
   end
 
-  # No need to test
+  # No need to test outgoing query
   # describe '#display_all_contacts' do
   # end
 

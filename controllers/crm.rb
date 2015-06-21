@@ -106,20 +106,21 @@ class CRM
 
 
       elsif menu_response == 3 #display all contacts
-        @crm_rolodex.display_all_contacts
+        all_contacts = @crm_rolodex.display_all_contacts
+        puts all_contacts
 
       elsif menu_response == 4 #display a contact based on id
         entered_id = prompt_contact_id
-        @crm_rolodex.display_particular_contact(entered_id)
+        puts @crm_rolodex.display_particular_contact(entered_id)
 
       elsif menu_response == 5 #display a contact based on attribute
         attribute_type = prompt_for_attribute
         attribute_val = collect_attribute_value
-        @crm_rolodex.display_info_by_attribute(attribute_type, attribute_val)
+        puts @crm_rolodex.display_info_by_attribute(attribute_type, attribute_val)
 
       elsif menu_response == 6 #delete a contact
         entered_id = prompt_contact_id
-        @crm_rolodex.delete_contact(entered_id)
+        puts @crm_rolodex.delete_contact(entered_id)
       end
 
       break if menu_response == 7 #exit CRM

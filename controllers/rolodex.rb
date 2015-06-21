@@ -16,9 +16,8 @@ class Rolodex
   end
 
   def modify_contact(id, type, attribute_val)
-    contact = Contact.find(id)
 
-    if contact
+    if contact = Contact.find_by(id: id)
       contact.first_name = attribute_val if type == 1
       contact.last_name = attribute_val if type == 2
       contact.email = attribute_val if type == 3
@@ -29,7 +28,7 @@ class Rolodex
 
     if contact.save
       # allows user to see changes take effect immediately
-      display_particular_contact(id)
+      puts display_particular_contact(id)
     else
       puts "Error: could not save to database"
     end
@@ -37,49 +36,53 @@ class Rolodex
   end
 
   def display_all_contacts
-    @all_contacts = Contact.all
-    puts "Rolodex is empty" if @all_contacts.empty?
-
-    @all_contacts.each do |person|
-      puts person.display
+    all_contacts = Contact.all
+    if all_contacts.empty?
+      "Rolodex is empty"
+    else
+      contact_string = []
+      all_contacts.each do |person|
+        contact_string << person.display
+      end
+      contact_string
     end
   end
 
   def display_particular_contact(id)
-    if person = Contact.find(id)
-      puts person.display
+    if person = Contact.find_by(id: id)
+      person.display
     else
-      puts "Contact not found."
+      "Contact not found."
     end
   end
 
   def display_info_by_attribute(type, attribute_val)
     if type == 1
       if person = Contact.find_by(first_name: attribute_val)
-        puts person.display
+        person.display
       else
-        puts "Contact with first name #{attribute_val} not found."
+        "Contact with first name #{attribute_val} not found."
       end
 
     elsif type == 2
       if person = Contact.find_by(last_name: attribute_val)
-        puts person.display
+        person.display
       else
-        puts "Contact with last name #{attribute_val} not found."
+        "Contact with last name #{attribute_val} not found."
       end
 
     elsif type == 3
       if person = Contact.find_by(email: attribute_val)
-        puts person.display
+        person.display
       else
-        puts "Contact with email #{attribute_val} not found."
+        "Contact with email #{attribute_val} not found."
       end
 
     elsif type == 4
       if person = Contact.find_by(notes: attribute_val)
-        puts person.display
+        person.display
       else
-        puts "Contact with notes: #{attribute_val} not found."
+        "Contact with notes: #{attribute_val} not found."
       end
 
     end
@@ -87,10 +90,11 @@ class Rolodex
 
   # delete contact based on contact id
   def delete_contact(id)
-    if contact = Contact.find(id)
+    if contact = Contact.find_by(id: id)
       contact.destroy
+      contact.display
     else
-      puts "Contact with that id not found."
+      "Contact with that id not found."
     end
   end
 
