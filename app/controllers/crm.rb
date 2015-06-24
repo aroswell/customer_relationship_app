@@ -2,7 +2,7 @@
 # require "rubygems"
 
 require "pry"
-require_relative "../db/connection"
+require_relative "../../db/connection"
 require_relative 'rolodex'
 require_relative "../views/text_formatting"
 

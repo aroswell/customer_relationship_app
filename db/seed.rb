@@ -1,5 +1,5 @@
 require_relative "connection"
-require_relative "../models/contact"
+require_relative "../app/models/contact"
 require "faker"
 
 # Seed data

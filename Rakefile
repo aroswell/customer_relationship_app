@@ -11,6 +11,15 @@ namespace :db do
     puts "Attempting to seed data..."
     ruby 'db/seed.rb'
   end
+
+  desc "Reset database - run schema and re-seed"
+  task :reset do
+    puts "Attempting to reset..."
+    ruby 'db/schema.rb'
+    ruby 'db/seed.rb'
+    puts "Reset complete"
+  end
+
 end
 
 # Setting up testing task
@@ -25,5 +34,5 @@ end
 # Start the app with this run task
 desc "Run the app"
 task :run do
-  ruby 'controllers/crm.rb'
+  ruby 'app/controllers/crm.rb'
 end
