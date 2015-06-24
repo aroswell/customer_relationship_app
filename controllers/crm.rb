@@ -1,5 +1,4 @@
-#file holds main program and main class
-#  note: to clear terminal screen use -  puts "\e[H\e[2J"
+# file holds main program and main class
 # require "rubygems"
 
 require "pry"
@@ -70,6 +69,7 @@ class CRM
   end
 
   def prompt_for_attribute(default = true)
+    print "\n"
     puts "[1]".blue + " First name"
     puts "[2]".blue + " Last name"
     puts "[3]".blue + " Email"
@@ -94,35 +94,65 @@ class CRM
 
       if menu_response == 1 #adding a new contact
          contact_info = prompt_contact_info
-         @crm_rolodex.add_contact(contact_info)
+         response = @crm_rolodex.add_contact(contact_info)
+         if response[:status]
+          puts response[:contact]
+         else
+          puts response[:error].red
+         end
 
       elsif menu_response == 2 #modify contact
+        while_status = true
         entered_id = prompt_contact_id
-        while true
+        response = @crm_rolodex.display_particular_contact(entered_id)
+        if response[:status]
+          puts response[:contact]
+        else
+          puts response[:error].red
+          while_status = false
+        end
+
+        while while_status
           attribute_type = prompt_for_attribute(false)
           attribute_val = collect_attribute_value
-
-          if @crm_rolodex.modify_contact(entered_id, attribute_type, attribute_val)
-            print "Do you want to modify another attribute? ('yes' or 'no'):".yellow
+          response = @crm_rolodex.modify_contact(entered_id, attribute_type, attribute_val)
+          if response[:status]
+            puts response[:contact]
+            print "\nDo you want to modify another attribute? ('yes' or 'no'):".yellow
             reply = gets.chomp
             break if reply == 'no'
           else
+            puts response[:error].red
             break
           end
         end
 
       elsif menu_response == 3 #display all contacts
         all_contacts = @crm_rolodex.display_all_contacts
-        puts all_contacts
+        if all_contacts.is_a?(String)
+          puts all_contacts.red
+        else
+          puts all_contacts
+        end
 
       elsif menu_response == 4 #display a contact based on id
         entered_id = prompt_contact_id
-        puts @crm_rolodex.display_particular_contact(entered_id)
+        response = @crm_rolodex.display_particular_contact(entered_id)
+        if response[:status]
+          puts response[:contact]
+        else
+          puts response[:error].red
+        end
 
       elsif menu_response == 5 #display a contact based on attribute
         attribute_type = prompt_for_attribute
         attribute_val = collect_attribute_value
-        puts @crm_rolodex.display_info_by_attribute(attribute_type, attribute_val)
+        response = @crm_rolodex.display_info_by_attribute(attribute_type, attribute_val)
+        if response[:status]
+          puts response[:contact]
+        else
+          puts response[:error].red
+        end
 
       elsif menu_response == 6 #delete a contact
         entered_id = prompt_contact_id
@@ -132,9 +162,8 @@ class CRM
         else
           puts deletion[:error].red
         end
-      end
 
-      if menu_response == 7 # exit CRM and
+      elsif menu_response == 7 # exit CRM and
         print "\ec"         # clear the console screen
         break
       end

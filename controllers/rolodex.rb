@@ -9,9 +9,9 @@ class Rolodex
   def add_contact(contact_info)
     new_contact = Contact.new(contact_info)
     if new_contact.save
-      puts "\nNew contact was succesfully saved."
+      {status: true, contact: "\nNew contact was succesfully saved."}
     else
-      puts "\nError: New contact could not be saved."
+      {status: false, error: "\nError: New contact could not be saved."}
     end
   end
 
@@ -25,17 +25,15 @@ class Rolodex
 
       if contact.save
       # allows user to see changes take effect immediately
-      puts display_particular_contact(id)
+        return display_particular_contact(id)
       else
-        puts "\nError: could not save to database"
+        return {status: false, error: "\nError: could not save to database"}
       end
 
     else
-      puts "\nContact not found. Please check I.D."
-      return false
+      return {status: false, error: "\nContact not found. Please check I.D."}
     end
 
-    return true
   end
 
   def display_all_contacts
@@ -51,41 +49,48 @@ class Rolodex
     end
   end
 
+  # method ot display a particular contact base on the contact's I.D.
   def display_particular_contact(id)
     if person = Contact.find_by(id: id)
-      person.display
+      {status: true, contact: person.display}
     else
-      "\nContact not found."
+      {status: false, error: "\nContact not found."}
     end
   end
 
+  # method to display contacts by their attribute
   def display_info_by_attribute(type, attribute_val)
     if type == 1
-      if person = Contact.find_by(first_name: attribute_val)
-        person.display
+      result = Contact.where(first_name: attribute_val)
+      if result.empty?
+        {status: false, error: "\nContact with first name #{attribute_val} not found."}
       else
-        "\nContact with first name #{attribute_val} not found."
+        # see private method section for load_people
+        {status: true, contact: load_people(result)}
       end
 
     elsif type == 2
-      if person = Contact.find_by(last_name: attribute_val)
-        person.display
+      result = Contact.where(last_name: attribute_val)
+      if result.empty?
+        {status: false, error: "\nContact with last name #{attribute_val} not found."}
       else
-        "\nContact with last name #{attribute_val} not found."
+        {status: true, contact: load_people(result)}
       end
 
     elsif type == 3
-      if person = Contact.find_by(email: attribute_val)
-        person.display
+      result = Contact.where(email: attribute_val)
+      if result.empty?
+        {status: false, error: "\nContact with email #{attribute_val} not found."}
       else
-        "\nContact with email #{attribute_val} not found."
+        {status: true, contact: load_people(result)}
       end
 
     elsif type == 4
-      if person = Contact.find_by(notes: attribute_val)
-        person.display
+      result = Contact.where(notes: attribute_val)
+      if result.empty?
+        {status: false, error: "\nContact with notes: #{attribute_val} not found."}
       else
-        "\nContact with notes: #{attribute_val} not found."
+        {status: true, contact: load_people(result)}
       end
 
     end
@@ -100,5 +105,14 @@ class Rolodex
       {status: false, error: "\nContact with that I.D. not found."}
     end
   end
+
+  private
+    def load_people(result)
+      people = []
+      result.each do |person|
+      people << person.display
+      end
+      return people
+    end
 
 end
