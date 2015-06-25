@@ -23,7 +23,7 @@ Added Rspec and setup testing with test database and test database log.
 ##Forth Iteration##
 Rearranged filing to add views; Text is now formatted to display various colours.
 
-*Run Application*
+*Run Application:*
 Application is run by using the rake commands
-rake db:setup - to set up database and seed data
+rake db:setup - to set up database and seed data;
 rake run - to run the application
