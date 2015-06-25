@@ -19,3 +19,11 @@ Rearranged filing to reflect a Model/Controller setup.
 Added Rake task and separated the connecting to database, schema and seed functionality.
 
 Added Rspec and setup testing with test database and test database log.
+
+##Forth Iteration##
+Rearranged filing to add views; Text is now formatted to display various colours.
+
+*Run Application*
+Application is run by using the rake commands
+rake db:setup - to set up database and seed data
+rake run - to run the application

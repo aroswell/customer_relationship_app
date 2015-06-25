@@ -12,12 +12,12 @@ namespace :db do
     ruby 'db/seed.rb'
   end
 
-  desc "Reset database - run schema and re-seed"
-  task :reset do
-    puts "Attempting to reset..."
+  desc "Setup or Reset database - run schema and re-seed"
+  task :setup do
+    puts "Attempting to setup database and seed data..."
     ruby 'db/schema.rb'
     ruby 'db/seed.rb'
-    puts "Reset complete"
+    puts "Setup complete"
   end
 
 end

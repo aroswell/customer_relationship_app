@@ -6,6 +6,7 @@ require_relative "../../db/connection"
 require_relative 'rolodex'
 require_relative "../views/text_formatting"
 
+
 #define a CRM class
 class CRM
 
@@ -105,6 +106,7 @@ class CRM
         while_status = true
         entered_id = prompt_contact_id
         response = @crm_rolodex.display_particular_contact(entered_id)
+
         if response[:status]
           puts response[:contact]
         else
@@ -116,8 +118,9 @@ class CRM
           attribute_type = prompt_for_attribute(false)
           attribute_val = collect_attribute_value
           response = @crm_rolodex.modify_contact(entered_id, attribute_type, attribute_val)
+
           if response[:status]
-            puts response[:contact]
+            puts response[:contact].format_contact_info_yellow(attribute_type)
             print "\nDo you want to modify another attribute? ('yes' or 'no'):".yellow
             reply = gets.chomp
             break if reply == 'no'
@@ -132,14 +135,14 @@ class CRM
         if all_contacts.is_a?(String)
           puts all_contacts.red
         else
-          puts all_contacts
+          puts add_formatting(all_contacts, 36) # colour is cyan
         end
 
       elsif menu_response == 4 #display a contact based on id
         entered_id = prompt_contact_id
         response = @crm_rolodex.display_particular_contact(entered_id)
         if response[:status]
-          puts response[:contact]
+          puts response[:contact].format_contact_info_magenta
         else
           puts response[:error].red
         end
@@ -148,8 +151,9 @@ class CRM
         attribute_type = prompt_for_attribute
         attribute_val = collect_attribute_value
         response = @crm_rolodex.display_info_by_attribute(attribute_type, attribute_val)
+
         if response[:status]
-          puts response[:contact]
+          puts add_formatting(response[:contact], 36) # colour is cyan
         else
           puts response[:error].red
         end
@@ -158,7 +162,7 @@ class CRM
         entered_id = prompt_contact_id
         deletion = @crm_rolodex.delete_contact(entered_id)
         if deletion[:status]
-          puts deletion[:contact]
+          puts deletion[:contact].format_contact_info_red
         else
           puts deletion[:error].red
         end

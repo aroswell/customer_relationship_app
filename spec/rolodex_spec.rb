@@ -52,7 +52,7 @@ describe Rolodex do
   end
 
   describe '#modify_contact' do
-    it "modify contact's first name" do
+    it "modifies contact's first name" do
       allow(@rolodex).to receive(:display_particular_contact) {[]}
 
       @rolodex.modify_contact(existing_person.id, 1, first_name)
@@ -60,7 +60,7 @@ describe Rolodex do
       expect(modified_contact.first_name).to eq(first_name)
     end
 
-    it "modify contact's last name" do
+    it "modifies contact's last name" do
       allow(@rolodex).to receive(:display_particular_contact) {[]}
 
       @rolodex.modify_contact(existing_person.id, 2, last_name)
@@ -68,7 +68,7 @@ describe Rolodex do
       expect(modified_contact.last_name).to eq(last_name)
     end
 
-    it "modify contact's email" do
+    it "modifies contact's email" do
       allow(@rolodex).to receive(:display_particular_contact) {[]}
 
       @rolodex.modify_contact(existing_person.id, 3, email)
@@ -76,7 +76,7 @@ describe Rolodex do
       expect(modified_contact.email).to eq(email)
     end
 
-    it "modify contact's notes" do
+    it "modifies contact's notes" do
       allow(@rolodex).to receive(:display_particular_contact) {[]}
 
       @rolodex.modify_contact(existing_person.id, 4, notes)
@@ -86,42 +86,42 @@ describe Rolodex do
   end
 
   describe '#display_all_contacts' do
-    it "display_all_contacts should return an array of strings of all contacts in database" do
+    it "returns an array of strings of all contacts in database" do
       expect(@rolodex.display_all_contacts).to eq(@all_contacts_string)
     end
   end
 
   describe '#display_particular_contact' do
-    it "method finds contact by id and returns a hash with status and contact info when contact exist" do
+    it "finds contact by I.D. and returns a hash with status and contact info when contact exist" do
       id = Contact.first.id
       expect(@rolodex.display_particular_contact(id)).to eq(@hash_single_contact)
     end
   end
 
   describe '#display_info_by_attribute' do
-    it "method finds contact by first name and returns a hash with status and contact" do
+    it "finds contact by first name and returns a hash with status and contact" do
       actual = @rolodex.display_info_by_attribute(1, "James")
       expect(actual).to eq(@hash_second_contact)
     end
 
-    it "method finds contact by last name and returns contact as string" do
+    it "finds contact by last name and returns contact as string" do
       actual = @rolodex.display_info_by_attribute(2, "Stewart")
       expect(actual).to eq(@hash_second_contact)
     end
 
-    it "method finds contact by email and returns contact as string" do
+    it "finds contact by email and returns contact as string" do
       actual = @rolodex.display_info_by_attribute(3, "tim.roberts@devbbq.com")
       expect(actual).to eq(@hash_first_contact)
     end
 
-    it "method finds contact by notes and returns contact as string" do
+    it "finds contact by notes and returns contact as string" do
       actual = @rolodex.display_info_by_attribute(4, "Co-founder & CEO")
       expect(actual).to eq(@hash_first_contact)
     end
   end
 
   describe '#delete_contact' do
-    it "delete a contact found by id number" do
+    it "deletes a contact found by I.D. number" do
       id = existing_person.id
       @rolodex.delete_contact(id)
       expect(Contact.all.count).to eq(@total_number_of_contacts - 1)

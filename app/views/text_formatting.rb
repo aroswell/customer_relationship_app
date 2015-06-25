@@ -69,4 +69,73 @@ class String
     "\e[2m#{self}"
   end
 
+  # method to handle long string of contact info
+  def format_contact_info_red
+    self.gsub(
+      /First name:/, "First name:".red
+    ).gsub(
+    /Last name:/, "Last name:".red
+    ).gsub(
+    /Email:/, "Email:".red
+    ).gsub(
+    /Notes:/, "Notes:".red
+    ).gsub(
+    /I.D.:/, "I.D.:".red)
+  end
+
+  def format_contact_info_magenta
+    self.gsub(
+      /First name:/, "First name:".magenta
+    ).gsub(
+    /Last name:/, "Last name:".magenta
+    ).gsub(
+    /Email:/, "Email:".magenta
+    ).gsub(
+    /Notes:/, "Notes:".magenta
+    ).gsub(
+    /I.D.:/, "I.D.:".magenta)
+  end
+
+  def format_contact_info_yellow(attribute = false)
+    case attribute
+    when 1
+      self.gsub(/First name:/, "First name:".yellow)
+    when 2
+      self.gsub(/Last name:/, "Last name:".yellow)
+    when 3
+      self.gsub(/Email:/, "Email:".yellow)
+    when 4
+      self.gsub(/Notes:/, "Notes:".yellow)
+    else
+      self.gsub(
+        /First name:/, "First name:".yellow
+      ).gsub(
+      /Last name:/, "Last name:".yellow
+      ).gsub(
+      /Email:/, "Email:".yellow
+      ).gsub(
+      /Notes:/, "Notes:".yellow
+      ).gsub(
+      /I.D.:/, "I.D.:".yellow)
+    end
+  end
+
+end
+
+def add_formatting(array_of_text, colour_code)
+  contact_string = []
+  array_of_text.each do |str|
+    contact_string << str.gsub(
+      /First name:/,
+      "\e[#{colour_code}mFirst name:\e[0m"
+    ).gsub(
+    /Last name:/,
+    "\e[#{colour_code}mLast name:\e[0m"
+    ).gsub(
+    /Email:/,
+    "\e[#{colour_code}mEmail:\e[0m"
+    ).gsub(/Notes:/, "\e[#{colour_code}mNotes:\e[0m"
+    ).gsub(/I.D.:/, "\e[#{colour_code}mI.D.:\e[0m")
+  end
+  return contact_string
 end
