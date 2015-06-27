@@ -54,17 +54,21 @@ class CRM
     print "\nEnter contact I.D.:".green
     while true
       contact_id = gets.chomp.to_i
-
-      puts "You entered contact ID -".dark_grey + " #{contact_id}"
-      print "Confirm ID entry ('yes' or 'no'):".yellow
-      user_contact_id_conformation = gets.chomp.downcase
-
-      if user_contact_id_conformation == 'yes'
-        return contact_id
-      elsif user_contact_id_conformation == 'no'
-        print "Re-enter contact I.D.:".green
+      if contact_id == 0
+        puts "You didn't enter an integer."
+        print "Please enter I.D. number as an integer: "
       else
-        print "You have neither entered 'yes' or 'no'. Please re-enter contact's I.D. and try again:".red
+        puts "You entered contact I.D. -".dark_grey + " #{contact_id}"
+        print "Confirm I.D. entry ('yes' or 'no'): ".yellow
+        user_contact_id_conformation = gets.chomp.downcase
+
+        if user_contact_id_conformation == 'yes'
+          return contact_id
+        elsif user_contact_id_conformation == 'no'
+          print "Re-enter contact I.D.:".green
+        else
+          print "You have neither entered 'yes' or 'no'. Please re-enter contact's I.D. and try again:".red
+        end
       end
     end
   end
