@@ -1,3 +1,5 @@
+Written in Ruby
+
 ##First Iteration of CRM app##
 
 OOP was used to create a Customer Relationship Management (CRM) application.
@@ -27,3 +29,10 @@ Rearranged filing to add views; Text is now formatted to display various colours
 Application is run by using the rake commands
 rake db:setup - to set up database and seed data;
 rake run - to run the application
+
+*Run Entire Test Suite*
+rake or Rspec spec
+
+
+
+**See the Requirements.md file for more details**

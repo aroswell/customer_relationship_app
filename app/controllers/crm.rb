@@ -55,8 +55,8 @@ class CRM
     while true
       contact_id = gets.chomp.to_i
       if contact_id == 0
-        puts "You didn't enter an integer."
-        print "Please enter I.D. number as an integer: "
+        puts "You didn't enter an integer.".red
+        print "Please enter I.D. number as an integer: ".green
       else
         puts "You entered contact I.D. -".dark_grey + " #{contact_id}"
         print "Confirm I.D. entry ('yes' or 'no'): ".yellow
@@ -73,6 +73,7 @@ class CRM
     end
   end
 
+  #  method prompting user for the attribute they want to modify or search by.
   def prompt_for_attribute(default = true)
     print "\n"
     puts "[1]".blue + " First name"
