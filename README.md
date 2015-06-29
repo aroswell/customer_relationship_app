@@ -36,3 +36,4 @@ rake or Rspec spec
 
 
 **See the Requirements.md file for more details**
+**Further documentation in application and database folders**
