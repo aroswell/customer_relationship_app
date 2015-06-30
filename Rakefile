@@ -31,8 +31,16 @@ task :test do
   sh %Q{Rspec spec}
 end
 
+namespace :test_db do
+  desc "Flush test database"
+  task :flush do
+    puts "flushing test database..."
+    ruby 'test_db/test_schema.rb'
+  end
+end
+
 # Start the app with this run task
 desc "Run the app"
 task :run do
-  ruby 'app/controllers/crm.rb'
+  ruby 'app/controllers/run_crm_app.rb'
 end

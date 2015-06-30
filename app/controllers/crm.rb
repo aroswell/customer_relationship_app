@@ -1,11 +1,6 @@
 # file holds main program and main class
 # require "rubygems"
 
-require "pry"
-require_relative "../../db/connection"
-require_relative 'rolodex'
-require_relative "../views/text_formatting"
-
 
 #define a CRM class
 class CRM
@@ -25,9 +20,9 @@ class CRM
     puts "[1]".blue + " Add a new contact".dark_grey
     puts "[2]".blue + " Modify an existing contact".dark_grey
     puts "[3]".blue + " Display All contacts".dark_grey
-    puts "[4]".blue + " Display a contact based on contact ID".dark_grey
+    puts "[4]".blue + " Display a contact based on contact I.D.".dark_grey
     puts "[5]".blue + " Display contacts based on an Attribute".dark_grey
-    puts "[6]".blue + " Delete a contact based on contact ID".dark_grey
+    puts "[6]".blue + " Delete a contact based on contact I.D.".dark_grey
     puts "[7]".blue + " Exit".dark_grey
     print "Please enter your selection (between 1 to 7):".green
 
@@ -37,16 +32,64 @@ class CRM
 
   #method to prompt for contact info; returns a hash
   def prompt_contact_info
-    print "\nPlease enter your first name:".green
-    first_name = gets.chomp
-    print "Please enter your last name:".green
-    last_name = gets.chomp
-    print "Please enter your email:".green
-    email = gets.chomp
-    print "Please add a note:".green
-    notes = gets.chomp
+    while true
+      print "\nPlease enter your first name:".green
+      first_name = sanitize_name(gets.chomp)
+      if first_name[:is_acceptable]
+        break
+      else
+        puts first_name[:error].red
+      end
+    end
 
-    {first_name: first_name, last_name: last_name, email: email, notes: notes}
+    while true
+      print "\nPlease enter your last name:".green
+      last_name = sanitize_name(gets.chomp)
+      break if last_name[:is_acceptable]
+      puts last_name[:error].red unless last_name[:is_acceptable]
+    end
+
+    while true
+      print "\nPlease enter your email:".green
+      email = sanitize_email(gets.chomp)
+      break
+    end
+
+    while true
+      print "\nPlease add a note:".green
+      notes = gets.chomp
+      break if notes[is_acceptable]
+      puts notes[:error] unless notes[:is_acceptable]
+    end
+
+    {first_name: first_name[:name], last_name: last_name[:name], email: email, notes: notes}
+  end
+
+  # method to sanitize user input for names
+  def sanitize_name(name)
+    if name.empty?
+      return {is_acceptable: false, error: "You must enter a name."}
+    else
+      name_array = name.split(//)
+      name_array.each do |l|
+        return {is_acceptable: false, error: "error no digits allowed in name"} if /\d/ === l
+        return {is_acceptable: false, error: "error only letters and periods allowed in name. No spaces or other characters allowed."} if /\W/ === l && l != '.' && l != '-'
+      end
+      return {is_acceptable: true, name: name.capitalize}
+    end
+  end
+
+  # method to sanitize user input for names
+  def sanitize_email(email)
+    return email.capitalize!
+  end
+
+  def limit_notes(notes)
+    if notes.length <= 50
+      return {is_acceptable: true, notes: notes}
+    else
+      return {is_acceptable: false, error: "Note can be no more than 50 characters."}
+    end
   end
 
   # method to prompt user for contact id
@@ -93,12 +136,8 @@ class CRM
     gets.chomp
   end
 
-
-  def run
-    while true
-      menu_response = menu
-
-      if menu_response == 1 #adding a new contact
+  def serve_menu_response(menu_response)
+    if menu_response == 1 #adding a new contact
          contact_info = prompt_contact_info
          response = @crm_rolodex.add_contact(contact_info)
          if response[:status]
@@ -173,17 +212,24 @@ class CRM
         end
 
       elsif menu_response == 7 # exit CRM and
-        print "\ec"         # clear the console screen
-        break
+        clear_screen
+        return false
       end
 
+      return true
+  end
+
+  def run
+    while true
+      break unless serve_menu_response(menu)
     end
   end
 
+  private
+    def clear_screen
+        print "\ec"         # clear the console screen
+    end
+
 end
-
-
-CRM.run
-
 
 
