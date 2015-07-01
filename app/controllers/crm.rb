@@ -93,11 +93,12 @@ class CRM
     end
   end
 
+  # sanitizing the notes received from user
   def sanitize_notes(notes)
-    if notes.length <= 50
+    if notes.length <= 50 and /\w/.match(notes)
       return {is_acceptable: true, notes: notes}
     else
-      return {is_acceptable: false, error: "Note can be no more than 50 characters."}
+      return {is_acceptable: false, error: "Note cannot be blank and can be no more than 50 characters."}
     end
   end
 
@@ -236,7 +237,7 @@ class CRM
 
   private
     def clear_screen
-        print "\ec"         # clear the console screen
+        print "\ec"   # clear the console screen
     end
 
 end
