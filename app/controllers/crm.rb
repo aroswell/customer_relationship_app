@@ -52,17 +52,18 @@ class CRM
     while true
       print "\nPlease enter your email:".green
       email = sanitize_email(gets.chomp)
-      break
+      break if email[:is_acceptable]
+      puts email[:error].red unless email[:is_acceptable]
     end
 
     while true
       print "\nPlease add a note:".green
-      notes = gets.chomp
-      break if notes[is_acceptable]
+      notes = sanitize_notes(gets.chomp)
+      break if notes[:is_acceptable]
       puts notes[:error] unless notes[:is_acceptable]
     end
 
-    {first_name: first_name[:name], last_name: last_name[:name], email: email, notes: notes}
+    {first_name: first_name[:name], last_name: last_name[:name], email: email[:email], notes: notes[:notes]}
   end
 
   # method to sanitize user input for names
@@ -81,10 +82,18 @@ class CRM
 
   # method to sanitize user input for names
   def sanitize_email(email)
-    return email.capitalize!
+    if email.empty?
+      return {is_acceptable: false, error: "You must enter an email."}
+    elsif /\s/.match(email)
+      return {is_acceptable: false, error: "Email cannot contain spaces."}
+    elsif /@/.match(email)
+      return {is_acceptable: true, email: email}
+    else
+      return {is_acceptable: false, error: "You did not enter a valid email."}
+    end
   end
 
-  def limit_notes(notes)
+  def sanitize_notes(notes)
     if notes.length <= 50
       return {is_acceptable: true, notes: notes}
     else

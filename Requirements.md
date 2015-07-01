@@ -6,7 +6,7 @@ The following are requirements the application was tested against:
 When user enters something other than a number between and including 1 and 7 application should return the main menu and prompt.
 
 ###Requirement 2
-When user is adding a contact. Add validation for name, email, and notes. The name should only contain letters. The name could have a period (e.g. Jr.) for abbreviation. The name field cannot be blank. Email must contain the @ symbol. Notes cannot not exceed 50 characters.
+When user is adding a contact. Add validation for name, email, and notes. The name should only contain letters. The name could have a period (e.g. Jr.) for abbreviation. The name field cannot be blank. Email must contain the @ symbol. Notes cannot be blank and cannot exceed 50 characters.
 
 ###Requirement 3
 All names will be capitalized (e.g. david => David, dAviD => David, DAVID => David, etc.).

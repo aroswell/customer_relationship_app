@@ -5,6 +5,8 @@ describe CRM do
   end
 
   let(:long_note) {"These notes or note is longer than 50 characters; therefore the #limit_notes method will return false boolean value"}
+  let(:lowercase_name) {"terry"}
+  let(:jumbled_name) {"tErRY"}
 
 
   describe '#serve_menu_response' do
@@ -75,15 +77,53 @@ describe CRM do
         name = @crm.sanitize_name("....")
         expect(name[:is_acceptable]).to eq(false)
       end
+    end
 
+    context "name capitalization" do
+      it "capitalizes lower case names" do
+        name = @crm.sanitize_name(lowercase_name)
+        expect(name[:name]).to eq("Terry")
+      end
+
+      it "capitalizes names that may have out of place capitals" do
+        name = @crm.sanitize_name(jumbled_name)
+        expect(name[:name]).to eq("Terry")
+      end
+    end
+
+  end
+
+  describe '#sanitize_notes' do
+    it "returns false when the notes field is more than 50 characters long" do
+      notes = @crm.sanitize_notes(long_note)
+      expect(notes[:is_acceptable]).to eq(false)
+    end
+
+    it "returns false when the notes field is blank" do
+      notes = @crm.sanitize_notes("")
+      expect(notes[:is_acceptable]).to eq(false)
+    end
+
+    it "returns false when the notes field is only white space" do
+      notes = @crm.sanitize_notes("  ")
+      expect(notes[:is_acceptable]).to eq(false)
     end
   end
 
-  describe '#limit_notes' do
+  describe '#sanitize_email' do
+    it "returns false if email does not contain '@'" do
+      email = @crm.sanitize_email("rockyatgmail.com")
+      expect(email[:is_acceptable]).to eq(false)
+    end
 
-    it "returns false when the notes field is more than 50 characters long" do
-      notes = @crm.limit_notes(long_note)
-      expect(notes[:is_acceptable]).to eq(false)
+    it "returns false when no email is entered" do
+      email = @crm.sanitize_email("")
+      expect(email[:is_acceptable]).to eq(false)
+    end
+
+    it "returns false when white space is enter as an email" do
+      email = @crm.sanitize_email(" @ space.com")
+      expect(email[:is_acceptable]).to eq(false)
     end
 
   end
