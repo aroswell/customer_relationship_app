@@ -30,3 +30,6 @@ Method prompts user for the attribute they want to modify or search by. The meth
 
 Prompts user for the attribute value and reads the value entered by the user.
 
+`#sanitize_name, #sanitize_email, #sanitize_notes`
+
+Methods used to validate user input
