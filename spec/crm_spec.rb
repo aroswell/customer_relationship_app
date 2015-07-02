@@ -82,12 +82,12 @@ describe CRM do
     context "name capitalization" do
       it "capitalizes lower case names" do
         name = @crm.sanitize_name(lowercase_name)
-        expect(name[:name]).to eq("Terry")
+        expect(name[:user_entry]).to eq("Terry")
       end
 
       it "capitalizes names that may have out of place capitals" do
         name = @crm.sanitize_name(jumbled_name)
-        expect(name[:name]).to eq("Terry")
+        expect(name[:user_entry]).to eq("Terry")
       end
     end
 

@@ -23,7 +23,7 @@ class CRM
     puts "[4]".blue + " Display a contact based on contact I.D.".dark_grey
     puts "[5]".blue + " Display contacts based on an Attribute".dark_grey
     puts "[6]".blue + " Delete a contact based on contact I.D.".dark_grey
-    puts "[7]".blue + " Exit".dark_grey
+    puts "[7]".blue + " Exit".red
     print "Please enter your selection (between 1 to 7):".green
 
     gets.chomp.to_i
@@ -63,20 +63,31 @@ class CRM
       puts notes[:error] unless notes[:is_acceptable]
     end
 
-    {first_name: first_name[:name], last_name: last_name[:name], email: email[:email], notes: notes[:notes]}
+    {
+      first_name: first_name[:user_entry],
+      last_name: last_name[:user_entry],
+      email: email[:user_entry],
+      notes: notes[:user_entry]
+    }
   end
 
+  # The sanitizing methods ensure user input is
+  # appropriate. This group of methods can be made private when
+  # application has been finalized and ready to ship.
+  #
   # method to sanitize user input for names
   def sanitize_name(name)
     if name.empty?
       return {is_acceptable: false, error: "You must enter a name."}
-    else
+    elsif /[a-zA-Z]/.match(name)
       name_array = name.split(//)
       name_array.each do |l|
         return {is_acceptable: false, error: "error no digits allowed in name"} if /\d/ === l
-        return {is_acceptable: false, error: "error only letters and periods allowed in name. No spaces or other characters allowed."} if /\W/ === l && l != '.' && l != '-'
+        return {is_acceptable: false, error: "error only letters, periods, and hyphens allowed in name. No spaces or other characters allowed."} if /\W/ === l && l != '.' && l != '-'
       end
-      return {is_acceptable: true, name: name.capitalize}
+      return {is_acceptable: true, user_entry: name.capitalize}
+    else
+      return {is_acceptable: false, error: "You must enter a name that contains letters."}
     end
   end
 
@@ -87,7 +98,7 @@ class CRM
     elsif /\s/.match(email)
       return {is_acceptable: false, error: "Email cannot contain spaces."}
     elsif /@/.match(email)
-      return {is_acceptable: true, email: email}
+      return {is_acceptable: true, user_entry: email}
     else
       return {is_acceptable: false, error: "You did not enter a valid email."}
     end
@@ -95,12 +106,14 @@ class CRM
 
   # sanitizing the notes received from user
   def sanitize_notes(notes)
-    if notes.length <= 50 and /\w/.match(notes)
-      return {is_acceptable: true, notes: notes}
+    if notes.length <= 50 and /\w/.match(notes) and /[a-zA-Z]/.match(notes)
+      return {is_acceptable: true, user_entry: notes}
     else
-      return {is_acceptable: false, error: "Note cannot be blank and can be no more than 50 characters."}
+      return {is_acceptable: false, error: "Note cannot be blank, must contain letters, and can be no more than 50 characters."}
     end
   end
+
+
 
   # method to prompt user for contact id
   def prompt_contact_id
@@ -110,6 +123,7 @@ class CRM
       if contact_id == 0
         puts "You didn't enter an integer.".red
         print "Please enter I.D. number as an integer: ".green
+
       else
         puts "You entered contact I.D. -".dark_grey + " #{contact_id}"
         print "Confirm I.D. entry ('yes' or 'no'): ".yellow
@@ -122,6 +136,7 @@ class CRM
         else
           print "You have neither entered 'yes' or 'no'. Please re-enter contact's I.D. and try again:".red
         end
+
       end
     end
   end
@@ -133,6 +148,7 @@ class CRM
     puts "[2]".blue + " Last name"
     puts "[3]".blue + " Email"
     puts "[4]".blue + " Notes"
+    puts "[5]".blue + " Exit sub-menu".red
     if default
       print "Please enter the attribute you want to search by (1 thru 4):".green
     else
@@ -141,9 +157,18 @@ class CRM
     gets.chomp.to_i
   end
 
-  def collect_attribute_value
+  def collect_attribute_value(type)
     print "\nPlease enter attribute value:".green
-    gets.chomp
+    case type
+    when 1
+      sanitize_name(gets.chomp)
+    when 2
+      sanitize_name(gets.chomp)
+    when 3
+      sanitize_email(gets.chomp)
+    when 4
+      sanitize_notes(gets.chomp)
+    end
   end
 
   def serve_menu_response(menu_response)
@@ -169,9 +194,20 @@ class CRM
         end
 
         while while_status
-          attribute_type = prompt_for_attribute(false)
-          attribute_val = collect_attribute_value
-          response = @crm_rolodex.modify_contact(entered_id, attribute_type, attribute_val)
+          while true
+            attribute_type = prompt_for_attribute(false)
+            break unless attribute_type == 0
+          end
+
+          break if attribute_type == 5
+
+          while true
+            attribute_val = collect_attribute_value(attribute_type)
+            break if attribute_val[:is_acceptable]
+            puts attribute_val[:error].red unless attribute_val[:is_acceptable]
+          end
+
+          response = @crm_rolodex.modify_contact(entered_id, attribute_type, attribute_val[:user_entry])
 
           if response[:status]
             puts response[:contact].format_contact_info_yellow(attribute_type)
