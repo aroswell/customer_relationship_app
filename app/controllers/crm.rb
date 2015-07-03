@@ -238,14 +238,26 @@ class CRM
         end
 
       elsif menu_response == 5 #display a contact based on attribute
-        attribute_type = prompt_for_attribute
-        attribute_val = collect_attribute_value
-        response = @crm_rolodex.display_info_by_attribute(attribute_type, attribute_val)
+        while true
+          attribute_type = prompt_for_attribute
+          break unless attribute_type == 0
+        end
 
-        if response[:status]
-          puts add_formatting(response[:contact], 36) # colour is cyan
-        else
-          puts response[:error].red
+        unless attribute_type == 5
+          while true
+            attribute_val = collect_attribute_value(attribute_type)
+            break if attribute_val[:is_acceptable]
+            puts attribute_val[:error].red unless attribute_val[:is_acceptable]
+          end
+
+          response = @crm_rolodex.display_info_by_attribute(attribute_type, attribute_val[:user_entry])
+
+          if response[:status]
+            puts add_formatting(response[:contact], 36) # colour is cyan
+          else
+            puts response[:error].red
+          end
+
         end
 
       elsif menu_response == 6 #delete a contact
